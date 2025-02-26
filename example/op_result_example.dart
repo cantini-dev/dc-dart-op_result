@@ -1,16 +1,23 @@
 import 'package:op_result/op_result.dart';
 
-enum ApiError { networkFailure, unauthorized, notFound }
+enum ApiErrorType { unauthorized, notFound, serverError }
 
 void main() {
-  final successResult = OpResult.success("User fetched successfully");
-  final failureResult = OpResult.failure(ApiError.notFound);
+  final OpResult<String, ApiErrorType> successResult = OpResult.success(
+    data: "User data retrieved",
+  );
+  final OpResult<String, ApiErrorType> failureResult = OpResult.failure(
+    error: OpResultError(
+      type: ApiErrorType.notFound,
+      message: "User not found in the system",
+    ),
+  );
 
   if (successResult.isSuccess) {
     print("Success: ${successResult.data}");
   }
 
   if (failureResult.isFailure) {
-    print("Error: ${failureResult.error}");
+    print("Error: ${failureResult.error.getErrorMessage()}");
   }
 }
