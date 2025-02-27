@@ -4,10 +4,10 @@ enum ApiErrorType { unauthorized, notFound, serverError }
 
 void main() {
   final OpResult<String, ApiErrorType> successResult = OpResult.success(
-    data: "User data retrieved",
+    "User data retrieved",
   );
   final OpResult<String, ApiErrorType> failureResult = OpResult.failure(
-    error: OpResultError(
+    OpResultError(
       type: ApiErrorType.notFound,
       message: "User not found in the system",
     ),

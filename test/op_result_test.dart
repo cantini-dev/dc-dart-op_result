@@ -1,24 +1,24 @@
 import 'package:op_result/op_result.dart';
 import 'package:test/test.dart';
 
-enum SampleError { invalidInput, timeout }
+enum SampleError { invalidInput, timeout, networkFailure }
 
 void main() {
   group('OpResult', () {
     test('should return success result', () {
-      final result = OpResult.success(data: 42);
+      final result = OpResult.success(42);
 
       expect(result.isSuccess, isTrue);
       expect(result.isFailure, isFalse);
       expect(result.data, equals(42));
     });
 
-    test('should return failure result', () {
+    test('should return failure result with a single error', () {
       final error = OpResultError(
         type: SampleError.timeout,
         message: "Operation timed out.",
       );
-      final result = OpResult.failure(error: error);
+      final result = OpResult.failure(error);
 
       expect(result.isSuccess, isFalse);
       expect(result.isFailure, isTrue);
@@ -26,25 +26,45 @@ void main() {
       expect(result.error.getErrorMessage(), equals("Operation timed out."));
     });
 
+    test('should return failure result with multiple errors', () {
+      final errors = [
+        OpResultError(
+          type: SampleError.invalidInput,
+          message: "Invalid input.",
+        ),
+        OpResultError(
+          type: SampleError.networkFailure,
+          message: "Network issue.",
+        ),
+      ];
+      final result = OpResult.failure(errors);
+
+      expect(result.isSuccess, isFalse);
+      expect(result.isFailure, isTrue);
+      expect(result.errors.length, equals(2));
+      expect(result.errors[0].type, equals(SampleError.invalidInput));
+      expect(result.errors[1].type, equals(SampleError.networkFailure));
+    });
+
     test('should throw when accessing data on failure', () {
       final error = OpResultError(
         type: SampleError.invalidInput,
         message: "Invalid input provided.",
       );
-      final result = OpResult.failure(error: error);
+      final result = OpResult.failure(error);
 
       expect(() => result.data, throwsStateError);
     });
 
     test('should throw when accessing error on success', () {
-      final result = OpResult.success(data: 100);
+      final result = OpResult.success(100);
 
       expect(() => result.error, throwsStateError);
     });
 
     test('should return default error message if none is provided', () {
       final error = OpResultError(type: SampleError.timeout);
-      final result = OpResult.failure(error: error);
+      final result = OpResult.failure(error);
 
       expect(
         result.error.getErrorMessage(),
@@ -62,12 +82,53 @@ void main() {
         type: SampleError.invalidInput,
         errorMap: customErrorMap,
       );
-      final result = OpResult.failure(error: error);
+      final result = OpResult.failure(error);
 
       expect(
         result.error.getErrorMessage(),
         equals("The provided input is incorrect."),
       );
     });
+
+    test(
+      'should allow creating a failure with a single error via the factory constructor',
+      () {
+        final error = OpResultError(
+          type: SampleError.networkFailure,
+          message: "Network down.",
+        );
+        final result = OpResult.failure(error);
+
+        expect(result.isFailure, isTrue);
+        expect(result.error.type, equals(SampleError.networkFailure));
+        expect(result.error.getErrorMessage(), equals("Network down."));
+      },
+    );
+
+    test(
+      'should allow creating a failure with multiple errors via the factory constructor',
+      () {
+        final errorList = [
+          OpResultError(type: SampleError.timeout, message: "Request timeout."),
+          OpResultError(
+            type: SampleError.networkFailure,
+            message: "No internet connection.",
+          ),
+        ];
+        final result = OpResult.failure(errorList);
+
+        expect(result.isFailure, isTrue);
+        expect(result.errors.length, equals(2));
+        expect(result.errors[0].type, equals(SampleError.timeout));
+        expect(result.errors[1].type, equals(SampleError.networkFailure));
+      },
+    );
+
+    test(
+      'should throw ArgumentError when failure() is called with an empty list',
+      () {
+        expect(() => OpResult.failure([]), throwsArgumentError);
+      },
+    );
   });
 }
