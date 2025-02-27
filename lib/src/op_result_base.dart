@@ -53,7 +53,8 @@ class OpResult<T, E extends Enum> {
     if (!isSuccess) {
       throw StateError("Attempted to access data on a failed OpResult.");
     }
-    return _data!;
+    // as T ensures that if T is non-nullable, _data is never null.
+    return _data as T;
   }
 
   /// Retrieves all errors.

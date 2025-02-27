@@ -1,3 +1,7 @@
+## 0.2.1 - 2025-02-27
+### Fixed
+- Ensured OpResult.success() allows null if T is explicitly nullable (T?).
+
 ## 0.2.0 - 2025-02-27
 ### Breaking Changes
 - **Refactored `OpResult.success()` to use a positional argument instead of `data:`**
