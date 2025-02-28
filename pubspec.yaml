@@ -1,6 +1,6 @@
 name: op_result
 description: A generic result type for handling success and error cases in a type-safe manner.
-version: 0.2.1
+version: 0.2.2
 repository: https://github.com/cantini-dev/dc-dart-op_result
 license: BSD-3-Clause
 

@@ -1,3 +1,8 @@
+## 0.2.2 - 2025-02-28
+### Maintenance
+- Bumped version to **0.2.2** for consistency and dependency updates.
+- No functional changes.
+ 
 ## 0.2.1 - 2025-02-28
 ### Initial Public Release
 - **Added support for nullable success values (`T?`)** in `OpResult.success()`
