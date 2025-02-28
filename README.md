@@ -1,24 +1,13 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
-
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages). 
--->
-# OpResult 
+# OpResult  
 *A lightweight, type-safe result wrapper for handling success and failure cases in Dart.*
 
 ## Features
 OpResult is a generic class designed to handle operations that return either a success or a failure in a structured and type-safe manner.
 
-- Generic over Success and Error Types (OpResult<T, E>)
-- Prevents null checks—ensures only one of data or error exists
+- Generic over Success and Error Types (`OpResult<T, E>`)
+- Prevents null checks—ensures only one of `data` or `error` exists
 - Encapsulates errors in a structured way using enums
+- Easily maps error types to custom/multi-language messages
 - Works seamlessly in any context, with APIs, validation, domain logic, etc.
 - No dependencies—lightweight and efficient
 
@@ -60,7 +49,7 @@ void main() {
 
 **API Call Example**
 
-```
+```dart
 Future<OpResult<User, ApiError>> fetchUser() async {
   final response = await apiClient.get("/user");
 
@@ -80,8 +69,8 @@ void main() async {
 }
 ```
 
-**Form Validation Example**s
-```
+**Form Validation Example**
+```dart
 OpResult<void, ValidationError> validatePassword(String password) {
   if (password.isEmpty) {
     return OpResult.failure(ValidationError.empty);
@@ -103,4 +92,40 @@ void main() {
 }
 ```
 
+**Custom Error Messages**
 
+```dart
+import 'package:op_result/op_result.dart';
+
+enum AuthError {
+  invalidCredentials,
+  accountLocked,
+  serverError,
+}
+
+// Example message mapping (could be loaded from a localization system)
+const Map<AuthError, String> errorMessages = {
+  AuthError.invalidCredentials: "Invalid username or password.",
+  AuthError.accountLocked: "Your account has been locked. Please contact support.",
+  AuthError.serverError: "An error occurred on the server. Try again later.",
+};
+
+OpResult<void, AuthError> authenticate(String username, String password) {
+  if (username != "admin" || password != "password123") {
+    return OpResult.failure(AuthError.invalidCredentials);
+  }
+  return OpResult.success(null);
+}
+
+void main() {
+  final result = authenticate("user", "wrongpass");
+
+  if (result.isFailure) {
+    print("Error: ${errorMessages[result.error]!}"); 
+  }
+}
+```
+
+## License ##
+
+This package is licensed under the BSD 3-Clause License. See the LICENSE file for details.

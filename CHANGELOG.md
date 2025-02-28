@@ -1,11 +1,13 @@
-## 0.2.1 - 2025-02-27
-### Fixed
-- Ensured OpResult.success() allows null if T is explicitly nullable (T?).
+## 0.2.1 - 2025-02-28
+### Initial Public Release
+- **Added support for nullable success values (`T?`)** in `OpResult.success()`
+- **Improved failure handling** by supporting both **single and multiple errors**
+- **Refactored `OpResult.success()`** to use a **positional argument** instead of a named parameter
 
 ## 0.2.0 - 2025-02-27
 ### Breaking Changes
 - **Refactored `OpResult.success()` to use a positional argument instead of `data:`**
-  - Now, call `OpResult.success(value)` instead of `OpResult.success(data: dvalue)`.
+  - Now, call `OpResult.success(value)` instead of `OpResult.success(data: value)`.
   - Example:
     - **Before**: `OpResult.success(data: user);`
     - **Now**: `OpResult.success(user);`
