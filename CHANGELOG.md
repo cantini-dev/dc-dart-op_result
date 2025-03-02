@@ -1,3 +1,31 @@
+## 0.3.0 - 2025-03-01
+### Breaking Changes
+- **Refactored `OpResult<T>` to remove `E extends Enum`**
+  - `OpResult` no longer requires an error type at the class level. **Errors are now enforced as enums only at failure creation.**
+  - **Before:**
+   ```dart 
+  OpResult<T, E extends Enum>
+  ```
+  - **Now:** 
+  ```dart 
+  OpResult<T>
+  ```
+  - This allows returning any error type (e.g., validation and API errors) in the result.
+
+- **Breaking change in `failure()` constructor**
+  - `failure()` only accepts a single error. 
+  - `multipleFailures()` must be used to pass a list of errors.
+  - **Before:**
+    ```dart
+    OpResult.failure([error1, error2]); 
+    ```
+  - **Now:**
+    ```dart
+    OpResult.multipleFailures([error1, error2]); 
+    ```
+  - This ensures strong typing while allowing flexibility in `OpResult`.
+
+
 ## 0.2.2 - 2025-02-28
 ### Maintenance
 - Bumped version to **0.2.2** for consistency and dependency updates.
