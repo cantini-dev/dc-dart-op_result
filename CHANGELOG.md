@@ -25,6 +25,7 @@
     ```
   - This ensures strong typing while allowing flexibility in `OpResult`.
 
+- **Breaking change:** `OpResultError` has been renamed to `OpError`. 
 
 ## 0.2.2 - 2025-02-28
 ### Maintenance

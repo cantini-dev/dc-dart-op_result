@@ -2,7 +2,7 @@
 ///
 /// - `E` must be an enum representing error types.
 /// - Provides a default message system but allows customization.
-class OpResultError<E extends Enum> {
+class OpError<E extends Enum> {
   /// The type of error, defined by the enum `E`.
   final E type;
 
@@ -13,7 +13,7 @@ class OpResultError<E extends Enum> {
   final Map<E, String> errorMessages;
 
   /// Constructor for `OpResultError`
-  OpResultError({required this.type, String? message, Map<E, String>? errorMap})
+  OpError({required this.type, String? message, Map<E, String>? errorMap})
     : errorMessages = errorMap ?? {},
       message = message ?? (errorMap?[type] ?? "An unknown error occurred.");
 

@@ -7,7 +7,7 @@ void main() {
     "User data retrieved",
   );
   final OpResult<String> failureResult = OpResult.failure(
-    OpResultError(
+    OpError(
       type: ApiErrorType.notFound,
       message: "User not found in the system",
     ),

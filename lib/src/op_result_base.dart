@@ -5,7 +5,7 @@ import 'op_result_error.dart';
 /// - `T` is the success data type.
 class OpResult<T> {
   final T? _data;
-  final List<OpResultError> _errors;
+  final List<OpError> _errors;
   final bool _isSuccess;
 
   /// Creates a success result containing `data`.
@@ -19,12 +19,12 @@ class OpResult<T> {
   }
 
   /// Creates a failure result with a single error.
-  factory OpResult.failure(OpResultError error) {
+  factory OpResult.failure(OpError error) {
     return OpResult._failure([error]);
   }
 
   /// Creates a failure result with multiple errors.
-  factory OpResult.multipleFailures(List<OpResultError> errors) {
+  factory OpResult.multipleFailures(List<OpError> errors) {
     if (errors.isEmpty) {
       throw ArgumentError("errors cannot be empty");
     }
@@ -50,10 +50,10 @@ class OpResult<T> {
   }
 
   /// Retrieves all errors.
-  List<OpResultError> get errors => _errors;
+  List<OpError> get errors => _errors;
 
   /// Retrieves the first error (for standard single-error scenarios).
-  OpResultError get error => _errors.first;
+  OpError get error => _errors.first;
 
   @override
   String toString() =>

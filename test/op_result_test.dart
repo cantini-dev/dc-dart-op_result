@@ -14,7 +14,7 @@ void main() {
     });
 
     test('should return failure result with a single error', () {
-      final error = OpResultError<SampleError>(
+      final error = OpError<SampleError>(
         type: SampleError.timeout,
         message: "Operation timed out.",
       );
@@ -28,11 +28,11 @@ void main() {
 
     test('should return failure result with multiple errors', () {
       final errors = [
-        OpResultError<SampleError>(
+        OpError<SampleError>(
           type: SampleError.invalidInput,
           message: "Invalid input.",
         ),
-        OpResultError<SampleError>(
+        OpError<SampleError>(
           type: SampleError.networkFailure,
           message: "Network issue.",
         ),
@@ -47,7 +47,7 @@ void main() {
     });
 
     test('should throw when accessing data on failure', () {
-      final error = OpResultError<SampleError>(
+      final error = OpError<SampleError>(
         type: SampleError.invalidInput,
         message: "Invalid input provided.",
       );
@@ -63,7 +63,7 @@ void main() {
     });
 
     test('should return default error message if none is provided', () {
-      final error = OpResultError<SampleError>(type: SampleError.timeout);
+      final error = OpError<SampleError>(type: SampleError.timeout);
       final result = OpResult.failure(error);
 
       expect(
@@ -78,7 +78,7 @@ void main() {
         SampleError.timeout: "The operation took too long.",
       };
 
-      final error = OpResultError(
+      final error = OpError(
         type: SampleError.invalidInput,
         errorMap: customErrorMap,
       );
@@ -93,7 +93,7 @@ void main() {
     test(
       'should allow creating a failure with a single error via the factory constructor',
       () {
-        final error = OpResultError<SampleError>(
+        final error = OpError<SampleError>(
           type: SampleError.networkFailure,
           message: "Network down.",
         );
@@ -109,11 +109,11 @@ void main() {
       'should allow creating a failure with multiple errors via the factory constructor',
       () {
         final errorList = [
-          OpResultError<SampleError>(
+          OpError<SampleError>(
             type: SampleError.timeout,
             message: "Request timeout.",
           ),
-          OpResultError<SampleError>(
+          OpError<SampleError>(
             type: SampleError.networkFailure,
             message: "No internet connection.",
           ),
