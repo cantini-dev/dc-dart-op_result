@@ -1,3 +1,10 @@
+## 0.3.1 - 2025-04-25
+### Maintenance
+- Fixed outdated samples previously in the README.
+- Moved all README code samples into `example/op_result_example.dart` for easier maintenance.
+- Added automated test `test/op_result_example_test.dart` to ensure examples stay valid and error-free.
+- No functional changes to the library code.
+
 ## 0.3.0 - 2025-03-01
 ### Breaking Changes
 - **Refactored `OpResult<T>` to remove `E extends Enum`**

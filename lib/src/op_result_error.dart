@@ -10,11 +10,11 @@ class OpError<E extends Enum> {
   final String message;
 
   /// Default error messages mapped to enum values.
-  final Map<E, String> errorMessages;
+  final Map<E, String> errorMap;
 
   /// Constructor for `OpResultError`
   OpError({required this.type, String? message, Map<E, String>? errorMap})
-    : errorMessages = errorMap ?? {},
+    : errorMap = errorMap ?? {},
       message = message ?? (errorMap?[type] ?? "An unknown error occurred.");
 
   /// Retrieves the error message associated with the error type.

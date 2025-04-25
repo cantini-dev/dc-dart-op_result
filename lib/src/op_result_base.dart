@@ -10,7 +10,7 @@ class OpResult<T> {
 
   /// Creates a success result containing `data`.
   OpResult.success(this._data) : _errors = [], _isSuccess = true {
-    if (_data == null && !_isNullable<T>()) {
+    if (_data == null && !isNullable<T>()) {
       throw ArgumentError(
         "data cannot be null when success is true and T is non-nullable. Type: ${T.toString()}",
         "data",
@@ -58,9 +58,9 @@ class OpResult<T> {
   @override
   String toString() =>
       isSuccess
-          ? "Success($data)"
-          : "Failure(${errors.map((e) => e.toString()).join(', ')})";
+          ? "Success($_data)"
+          : "Failure(${_errors.map((e) => e.toString()).join(', ')})";
 
   /// Utility to check if a type is nullable.
-  static bool _isNullable<T>() => null is T;
+  static bool isNullable<T>() => null is T;
 }
